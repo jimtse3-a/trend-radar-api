@@ -19,6 +19,13 @@ class FeishuClient {
     this.baseId = process.env.FEISHU_BASE_ID || process.env.FEISHU_BASEID;
     this.accessToken = null;
     this.tokenExpireTime = 0;
+    
+    // 调试日志
+    console.log('FeishuClient initialized:', {
+      appId: this.appId ? '***' + this.appId.slice(-4) : 'NOT SET',
+      appSecret: this.appSecret ? '***' + this.appSecret.slice(-4) : 'NOT SET',
+      baseId: this.baseId ? '***' + this.baseId.slice(-4) : 'NOT SET'
+    });
   }
 
   // 获取访问令牌
@@ -50,6 +57,7 @@ class FeishuClient {
         res.on('end', () => {
           try {
             const result = JSON.parse(responseData);
+            console.log('Token response:', { code: result.code, msg: result.msg });
             if (result.code === 0 && result.tenant_access_token) {
               this.accessToken = result.tenant_access_token;
               this.tokenExpireTime = Date.now() + (result.expire - 300) * 1000;
