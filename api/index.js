@@ -68,6 +68,48 @@ module.exports = async (req, res) => {
       }));
     }
     
+    // 2.5 飞书连接诊断
+    if (url === '/api/health' || url === '/health') {
+      const config = {
+        app_id: process.env.FEISHU_APP_ID ? '✓ configured (ends with: ' + process.env.FEISHU_APP_ID.slice(-4) + ')' : '✗ MISSING',
+        app_secret: process.env.FEISHU_APP_SECRET ? '✓ configured (ends with: ' + process.env.FEISHU_APP_SECRET.slice(-4) + ')' : '✗ MISSING',
+        base_id: process.env.FEISHU_BASE_ID ? '✓ configured (ends with: ' + process.env.FEISHU_BASE_ID.slice(-4) + ')' : '✗ MISSING',
+        table_hotkeywords: TABLES.hotKeywords || '✗ MISSING',
+        table_rawmaterials: TABLES.rawMaterials || '✗ MISSING',
+        table_groupbuying: TABLES.groupBuying || '✗ MISSING'
+      };
+      
+      try {
+        // 测试飞书连接
+        const testResult = await feishu.queryRecords(TABLES.hotKeywords, { page_size: 1 });
+        return res.json({
+          code: 0,
+          status: 'success',
+          message: '飞书连接正常',
+          config: config,
+          feishu_test: {
+            connected: true,
+            record_count: testResult.items ? testResult.items.length : 0
+          },
+          timestamp: new Date().toISOString()
+        });
+      } catch (err) {
+        return res.json({
+          code: 500,
+          status: 'error',
+          message: '飞书连接失败',
+          config: config,
+          error: {
+            message: err.message,
+            hint: err.message.includes('RolePermNotAllow') 
+              ? '权限错误：请检查飞书应用的 bitable:record:read 权限是否已添加，以及应用是否已发布' 
+              : '请检查环境变量配置'
+          },
+          timestamp: new Date().toISOString()
+        });
+      }
+    }
+    
     // 3. 热词趋势 - /api/trends 或 /trends
     if (url.startsWith('/api/trends') || url.startsWith('/trends')) {
       if (!TABLES.hotKeywords) {
