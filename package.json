@@ -1,0 +1,22 @@
+{
+  "name": "trend-radar-api",
+  "version": "1.0.0",
+  "description": "趋势雷达B2B原料供应链平台API",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod",
+    "crawl:hotwords": "node crawlers/hotwords.js",
+    "crawl:groupon": "node crawlers/groupon.js",
+    "crawl:all": "npm run crawl:hotwords && npm run crawl:groupon",
+    "seed:demo": "node crawlers/seed_demo.js",
+    "demo:all": "npm run crawl:all && npm run seed:demo"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "vercel": "^33.0.0"
+  }
+}
