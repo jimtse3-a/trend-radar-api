@@ -5,14 +5,5 @@
       "src": "/(.*)",
       "dest": "/api/index.js"
     }
-  ],
-  "env": {
-    "FEISHU_APPID": "cli_a91445bc6eb81bb5",
-    "FEISHU_SECRET": "JWWF3UHxWuxh1qpwIVGUxccoaMjMSumN",
-    "FEISHU_BASEID": "EyMwbwi8waiFpCsFI9Lcni2Enep",
-    "TABLE_TRENDS": "tblVGbn4g1JwAGyA",
-    "TABLE_SKU": "tblkqeBQKbNSSlLe",
-    "TABLE_GROUPON": "tbl2Fy3xGOm1K4NS",
-    "TABLE_ORDERS": "tblFthffbJ1y97HA"
-  }
+  ]
 }
