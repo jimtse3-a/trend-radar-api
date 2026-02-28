@@ -1,6 +1,6 @@
 // 主API入口 - V2.0 连接真实飞书数据
-const feishu = require('./utils/feishu');
-const { success, error } = require('./utils/response');
+const feishu = require('../utils/feishu');
+const { success, error } = require('../utils/response');
 
 // 表ID配置 - 从环境变量读取
 const TABLES = {
